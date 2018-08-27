@@ -1,34 +1,40 @@
-       
-    def register(username, password)
+from flask_jwt_extended import (create_access_token, create_refresh_token,
+jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt,)
+from flask_jwt_extended import JWTManager
 
-        USER_LIST = UserModel.get_all_users()
 
-        exists = validator.check_if_user_exists(
-            USER_LIST, data['username'], data['email'])
+def register(username, password)
 
-        if exists:
-            message = dict(message="Error", body="Sorry, this user already exists")
-            return message
+    USER_LIST = UserModel.get_all_users()
 
-        create_user = UserModel.register(username, password)
+    exists = validator.check_if_user_exists(
+        USER_LIST, data['username'], data['email'])
 
-        message = dict(message="Success", body="User registered Successfully")
+    if exists:
+        message = dict(message="Error", body="Sorry, this user already exists")
+        return message
 
-    def login(username, password):
-        check_if_user_exists = UserModel.check_if_exists(username)
+    create_user = UserModel.register(username, password)
 
-        if not check_if_user_exists:
-            message = dict(message="Error", body="Sorry, that username doesnt exist")
-            return message
+    message = dict(message="Success", body="User registered Successfully")
 
-        user_check = UserModel.find_by_username(
-            data['username'], data['password'])
+def login(username, password):
+    check_if_user_exists = UserModel.check_if_exists(username)
 
-    
-        if user_check:
-            access_token = create_access_token(identity = user_check, expires_delta=False)
-            save_token =  UserModel.save_token(access_token)
+    if not check_if_user_exists:
+        message = dict(message="Error", body="Sorry, that username doesnt exist")
+        return message
 
-            return {"message": "Successfully logged in!!", "access_token" : access_token }, 200
+    user_check = UserModel.find_by_username(
+        data['username'], data['password'])
 
-        return {"message": "Sorry, wrong credentials" }, 401
+
+    if user_check:
+        access_token = create_access_token(identity = user_check, expires_delta=False)
+        save_token =  UserModel.save_token(access_token)
+
+        message=dict(message="Success", body="Login successful")
+        return message
+
+    message = dict(message="Error", body="Sorry, wrong credentials")
+    return message
