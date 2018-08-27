@@ -29,8 +29,9 @@ def main():
     # create a database connection
     conn = create_connection(database)
     if conn:
-        return conn.cursor()
+        return conn
 
 
-if __name__ == '__main__':
-    main()
+conn = main()
+cursor = conn.cursor()
+
