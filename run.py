@@ -8,15 +8,24 @@ from users.users import User, signin
 @click.option('--role')
 def register(username, password, role):
     user = User(username, '', role)
-    user.create_user(password)
+    response = user.create_user(password)
+    if response == 'success':
+        click.echo(click.style('Successfully created user ' + username, fg='green'))
+    else:
+        click.echo(click.style('Failed to create user', fg='red'))
 
 
 @click.command()
 @click.option('--username')
 @click.option('--password')
 def login(username, password):
-    click.echo("%s %s" % (username, password))
-    print(signin(username, password))
+    response = signin(username, password)
+    if response == 'success':
+        click.echo(click.style('Successfully logged in as ' + username, fg='green'))
+    elif response == 'invalid':
+        click.echo(click.style('Invalid username/password', fg='red'))
+    else:
+        click.echo(click.style('Login failed', fg='red'))
 
 
 @click.command()

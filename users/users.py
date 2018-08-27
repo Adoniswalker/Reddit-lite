@@ -59,11 +59,11 @@ def signin(username, password):
                 file = open('token.txt', 'w')
                 file.write(token.__str__())
                 file.close()
-                return "Login successfull"
+                return "success"
             else:
-                return "Invalid username/password"
+                return "invalid"
     except (psycopg2.DatabaseError, psycopg2.IntegrityError, Exception) as e:
-        return "Login failed"
+        return "failed"
 
 
 class User(object):
@@ -76,15 +76,18 @@ class User(object):
 
     def create_user(self, password):
         """Create user in db DONE"""
-        password_hash = generate_password_hash(password)
-        uid = uuid.uuid4()
-        query = "INSERT INTO " \
-                "users (id, username,password_hash,role, time_created)" \
-                "VALUES('%s','%s', '%s', '%s', '%s')" % (
-                uid, self.username, password_hash, self.role, self.time_created)
-        cur.execute(query)
-        conn.commit()
-        print("Registration successfull")
+        try:
+            password_hash = generate_password_hash(password)
+            uid = uuid.uuid4()
+            query = "INSERT INTO " \
+                    "users (id, username,password_hash,role, time_created)" \
+                    "VALUES('%s','%s', '%s', '%s', '%s')" % (
+                        uid, self.username, password_hash, self.role, self.time_created)
+            cur.execute(query)
+            conn.commit()
+            return "success"
+        except psycopg2.IntegrityError as ex:
+            return "failed"
 
     def get_user(self, uid):
         """get user using uid"""
