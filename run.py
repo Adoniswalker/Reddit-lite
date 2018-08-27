@@ -1,14 +1,14 @@
 import click
-from users.views import register, login, post_comment
+from users.users import User, signin
 
 
 @click.command()
-@click.option('--email')
 @click.option('--username')
 @click.option('--password')
-def register(email, username, password):
-    click.echo("%s %s %s" % (email, username, password))
-    register(username, password)
+@click.option('--role')
+def register(username, password, role):
+    user = User(username, '', role)
+    user.create_user(password)
 
 
 @click.command()
@@ -16,7 +16,7 @@ def register(email, username, password):
 @click.option('--password')
 def login(username, password):
     click.echo("%s %s" % (username, password))
-    login(username,password)
+    print(signin(username, password))
 
 
 @click.command()
@@ -28,7 +28,6 @@ def logout():
 @click.option('--body')
 def comment(body):
     click.echo("comment %s" % body)
-    post_comment(body)
 
 
 @click.group()
