@@ -1,5 +1,5 @@
 """
-#app/api/models/user.py
+#app/models/user.py
 This is the user model
 """
 import psycopg2
@@ -48,3 +48,25 @@ class UserModel:
         result = cur.fetchall()
 
         return result
+
+    def find_by_username(username, password):
+        """check user dedtails on login"""
+        user_list = []
+
+        conn
+        que = cur.execute("SELECT * FROM users")
+
+        try:
+            que
+        except (Exception, psycopg2.DatabaseError) as error:
+            conn
+            cur
+            que
+
+        result = cur.fetchall()
+
+        for i in result:
+
+            if i[3] == username and check_password_hash(i[5], password):
+                u_id = i[0]
+                return u_id
