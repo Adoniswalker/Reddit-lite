@@ -50,12 +50,10 @@ def signin(username, password):
 
     try:
         user = user.exists()
-        print(user.__dict__)
         if check_password_hash(user.password_hash, password):
             """token if password is correct"""
             token = auth_encode(user.uid)
             if token:
-                print(token)
                 file = open('token.txt', 'w')
                 file.write(token.__str__())
                 file.close()

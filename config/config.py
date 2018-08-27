@@ -21,8 +21,6 @@ def create_tables():
         users = "CREATE TABLE users(id VARCHAR(256) PRIMARY KEY, username VARCHAR(64) UNIQUE , password_hash VARCHAR(256) UNIQUE," \
                 "role VARCHAR(256),time_created TIMESTAMP );"
 
-        comments = "CREATE TABLE comments(id VARCHAR(256) PRIMARY KEY, uid VARCHAR(256) )"
-
         cur.execute(users)
 
         conn.commit()
