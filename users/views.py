@@ -38,3 +38,10 @@ def login(username, password):
 
     message = dict(message="Error", body="Sorry, wrong credentials")
     return message
+
+def post_comment(body):
+
+    post_comment = CommentModel.save_comment(body)
+
+    if post_comment:
+        return dict(message="Success", body="Message posted successfully")
