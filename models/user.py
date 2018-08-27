@@ -3,7 +3,7 @@
 This is the user model
 """
 import psycopg2
-from ..database.connect import conn, cur
+from database.connect import conn, cur
 from werkzeug.security import generate_password_hash, \
     check_password_hash
 
@@ -15,7 +15,7 @@ class UserModel:
         """retrieve all users from the database"""
         user_list = []
         conn
-        que = cur.execute("SELECT * FROM users")
+        que = cur.execute("SELECT * FROM auth_users")
 
         try:
             que
@@ -31,19 +31,19 @@ class UserModel:
 
         return result
 
-    def register(username, password):
+    def register(username, email, password):
         """save new user data"""
 
-        data = dict(username=username, password=generate_password_hash(password))
+        data = dict(username=username, email=email, password=generate_password_hash(password))
 
-        submit = cur.execute("""INSERT INTO users (first_name, last_name, username, email, password, created_at) VALUES 
-                    (%(first_name)s, %(last_name)s, %(username)s, %(email)s, %(password)s, current_timestamp)""", data)
+        submit = cur.execute("""INSERT INTO users (username, email, password) VALUES 
+                    (%(username)s, %(email)s, %(password)s)""", data)
 
         conn.commit()
 
     def check_if_exists(username):
         """checks if user exists in system"""
-        fetch_question = "SELECT * FROM users WHERE username = %s;"
+        fetch_question = "SELECT * FROM auth_users WHERE username = %s;"
         fetched_question = cur.execute(fetch_question, [username])
         result = cur.fetchall()
 
@@ -54,7 +54,7 @@ class UserModel:
         user_list = []
 
         conn
-        que = cur.execute("SELECT * FROM users")
+        que = cur.execute("SELECT * FROM auth_users")
 
         try:
             que
