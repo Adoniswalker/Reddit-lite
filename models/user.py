@@ -3,7 +3,7 @@
 This is the user model
 """
 import psycopg2
-from database.connect import conn, cur
+from database.connect import conn, cursor as cur
 from werkzeug.security import generate_password_hash, \
     check_password_hash
 

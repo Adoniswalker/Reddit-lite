@@ -1,9 +1,11 @@
 from flask_jwt_extended import (create_access_token, create_refresh_token,
 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt,)
 from flask_jwt_extended import JWTManager
+from models.user import UserModel
+from database.connect import conn, cursor as cur
 
 
-def register(username, password)
+def signup(username, password):
 
     USER_LIST = UserModel.get_all_users()
 
